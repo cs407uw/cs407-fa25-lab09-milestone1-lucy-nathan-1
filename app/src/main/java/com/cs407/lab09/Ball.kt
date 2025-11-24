@@ -38,25 +38,23 @@ class Ball(
             return
         }
 
-        // Calculate new velocities using Equation 1:
+        // calculate new velocities using EQUATION 1:
         // v1 = v0 + 1/2 * (a1 + a0) * (t1 - t0)
         val newVelocityX = velocityX + 0.5f * (xAcc + accX) * dT
         val newVelocityY = velocityY + 0.5f * (yAcc + accY) * dT
 
-        // Calculate distance traveled using Equation 2:
+        // calculate distance traveled using EQUATION 2:
         // l = v0 * (t1 - t0) + 1/6 * (t1 - t0)^2 * (3*a0 + a1)
         val deltaX = velocityX * dT + (1f / 6f) * dT * dT * (3f * accX + xAcc)
         val deltaY = velocityY * dT + (1f / 6f) * dT * dT * (3f * accY + yAcc)
 
-        // Update position
+        // update position + velocity
         posX += deltaX
         posY += deltaY
-
-        // Update velocity
         velocityX = newVelocityX
         velocityY = newVelocityY
 
-        // Store current acceleration for next iteration
+        // store current acceleration for next iteration
         accX = xAcc
         accY = yAcc
     }
@@ -67,28 +65,28 @@ class Ball(
      * boundary should be set to 0.
      */
     fun checkBoundaries() {
-        // Check left boundary
+        // left boundary
         if (posX < 0) {
             posX = 0f
             velocityX = 0f
             accX = 0f
         }
 
-        // Check right boundary
+        // right boundary
         if (posX + ballSize > backgroundWidth) {
             posX = backgroundWidth - ballSize
             velocityX = 0f
             accX = 0f
         }
 
-        // Check top boundary
+        // top boundary
         if (posY < 0) {
             posY = 0f
             velocityY = 0f
             accY = 0f
         }
 
-        // Check bottom boundary
+        // bottom boundary
         if (posY + ballSize > backgroundHeight) {
             posY = backgroundHeight - ballSize
             velocityY = 0f
@@ -101,17 +99,14 @@ class Ball(
      * velocity and acceleration.
      */
     fun reset() {
-        // Center the ball on the screen
+        // position ball to center screen
         posX = (backgroundWidth - ballSize) / 2f
         posY = (backgroundHeight - ballSize) / 2f
 
-        // Reset all motion parameters to zero
         velocityX = 0f
         velocityY = 0f
         accX = 0f
         accY = 0f
-
-        // Reset the first update flag
         isFirstUpdate = true
     }
 }

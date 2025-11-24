@@ -1,7 +1,6 @@
 package com.cs407.lab09
 
 import android.hardware.Sensor
-import android.view.Surface
 import android.hardware.SensorEvent
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.ViewModel
@@ -24,10 +23,10 @@ class BallViewModel : ViewModel() {
      */
     fun initBall(fieldWidth: Float, fieldHeight: Float, ballSizePx: Float) {
         if (ball == null) {
-            // Initialize the ball instance
+            // initialize ball instance
             ball = Ball(fieldWidth, fieldHeight, ballSizePx)
 
-            // Update the StateFlow with the initial position
+            // update StateFlow with initial position
             _ballPosition.value = Offset(ball!!.posX, ball!!.posY)
         }
     }
@@ -36,17 +35,16 @@ class BallViewModel : ViewModel() {
      * Called by the SensorEventListener in the UI.
      */
     fun onSensorDataChanged(event: SensorEvent) {
-        // Ensure ball is initialized
+        // ball initialized ?
         val currentBall = ball ?: return
 
         if (event.sensor.type == Sensor.TYPE_GRAVITY) {
             if (lastTimestamp != 0L) {
-                // Calculate the time difference (dT) in seconds
-                // event.timestamp is in nanoseconds, convert to seconds
-                val NS2S = 1.0f / 1000000000.0f
-                val dT = (event.timestamp - lastTimestamp) * NS2S
+                // calculate time difference + convert to seconds
+                val nano = 1.0f / 1000000000.0f
+                val dT = (event.timestamp - lastTimestamp) * nano
 
-                // Apply dead zone to filter out small sensor noise
+                // Apply dead zone to filter out small sensor noise ???
                 val DEAD_ZONE = 0.5f
                 var xAcc = -event.values[0]
                 var yAcc = -event.values[1]
@@ -75,10 +73,8 @@ class BallViewModel : ViewModel() {
     }
 
     fun reset() {
-        // Reset the ball's state
         ball?.reset()
-
-        // Update the StateFlow with the reset position
+        // update state flow
         ball?.let {
             _ballPosition.value = Offset(it.posX, it.posY)
         }
