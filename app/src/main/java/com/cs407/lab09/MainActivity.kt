@@ -74,15 +74,6 @@ fun GameScreen(viewModel: BallViewModel) {
         sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
     }
 
-//    // Get the current screen rotation
-//    val windowManager = remember {
-//        context.getSystemService(Context.WINDOW_SERVICE) as android.view.WindowManager
-//    }
-//
-//    val rotation = remember(windowManager) {
-//        windowManager.defaultDisplay.rotation
-//    }
-
     // This effect runs when the composable enters the screen
     // and cleans up when it leaves
     DisposableEffect(sensorManager, gravitySensor) {

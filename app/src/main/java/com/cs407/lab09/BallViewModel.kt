@@ -40,34 +40,29 @@ class BallViewModel : ViewModel() {
 
         if (event.sensor.type == Sensor.TYPE_GRAVITY) {
             if (lastTimestamp != 0L) {
+
                 // calculate time difference + convert to seconds
-                val nano = 1.0f / 1000000000.0f
-                val dT = (event.timestamp - lastTimestamp) * nano
+                val NS2S = 1.0f / 1000000000.0f
+                val dT = (event.timestamp - lastTimestamp) * NS2S
 
-                // Apply dead zone to filter out small sensor noise ???
-                val DEAD_ZONE = 0.5f
-                var xAcc = -event.values[0]
-                var yAcc = -event.values[1]
+                val xAcc = -event.values[0]
+                val yAcc = -event.values[1]
 
-                // If acceleration is below threshold, set to zero
-                if (kotlin.math.abs(xAcc) < DEAD_ZONE) xAcc = 0f
-                if (kotlin.math.abs(yAcc) < DEAD_ZONE) yAcc = 0f
-
-                // Update the ball's position and velocity
+                // update ball's position and velocity
                 currentBall.updatePositionAndVelocity(
                     xAcc = xAcc,
                     yAcc = yAcc,
                     dT = dT
                 )
 
-                // Check boundaries after updating position
+                // check boundaries
                 currentBall.checkBoundaries()
 
-                // Update the StateFlow to notify the UI
+                // update the StateFlow to notify the UI
                 _ballPosition.update { Offset(currentBall.posX, currentBall.posY) }
             }
 
-            // Update the lastTimestamp for next iteration
+            // update the lastTimestamp for next iteration
             lastTimestamp = event.timestamp
         }
     }

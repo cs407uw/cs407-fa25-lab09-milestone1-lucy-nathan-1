@@ -40,8 +40,8 @@ class Ball(
 
         // calculate new velocities using EQUATION 1:
         // v1 = v0 + 1/2 * (a1 + a0) * (t1 - t0)
-        val newVelocityX = velocityX + 0.5f * (xAcc + accX) * dT
-        val newVelocityY = velocityY + 0.5f * (yAcc + accY) * dT
+        val newVelocityX = velocityX + (0.5f * (xAcc + accX) * dT)
+        val newVelocityY = velocityY + (0.5f * (yAcc + accY) * dT)
 
         // calculate distance traveled using EQUATION 2:
         // l = v0 * (t1 - t0) + 1/6 * (t1 - t0)^2 * (3*a0 + a1)
